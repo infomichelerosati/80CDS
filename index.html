@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Prontuario Art. 80 CdS</title>
+    
+    <!-- PWA Manifest and Theme -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e40af">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <!-- Tailwind CSS and Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom styled radio buttons */
+        .radio-label {
+            @apply block w-full text-left p-4 bg-white border border-gray-200 rounded-lg shadow-sm cursor-pointer transition-all duration-200;
+        }
+        .radio-label:has(input:checked) {
+            @apply bg-blue-50 border-blue-500 ring-2 ring-blue-500;
+        }
+        .radio-label:hover {
+             @apply bg-gray-50;
+        }
+        .radio-label-inner {
+             @apply flex justify-between items-center;
+        }
+        .radio-label-text {
+             @apply text-gray-800 font-semibold;
+        }
+        .radio-label input {
+            @apply hidden;
+        }
+        .result-card {
+            @apply border-l-4 p-4 rounded-r-lg;
+        }
+        .result-card-green {
+            @apply bg-green-50 border-green-500;
+        }
+        .result-card-red {
+            @apply bg-red-50 border-red-500;
+        }
+        .result-card-yellow {
+            @apply bg-yellow-50 border-yellow-500;
+        }
+        .result-card-blue {
+            @apply bg-blue-50 border-blue-500;
+        }
+        #result-container {
+             animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="w-full max-w-2xl bg-white rounded-b-xl shadow-lg mx-auto">
+        <!-- Header -->
+        <header class="bg-blue-800 text-white p-4 rounded-t-xl text-center sticky top-0 z-10">
+            <h1 class="text-xl md:text-2xl font-bold">Prontuario Operativo Art. 80 CdS</h1>
+            <p class="text-sm text-blue-200 mt-1">Guida alla contestazione per l'agente accertatore</p>
+        </header>
+
+        <main class="p-4 md:p-6">
+            <form id="check-form" class="space-y-6">
+                
+                <!-- 1. Tipo Targa -->
+                <fieldset>
+                    <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                        <span>1. Tipo di Targa</span>
+                        <div class="info-tooltip-container relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                            <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                La procedura di controllo per i veicoli con targa estera è disciplinata dall'<strong>Art. 93-bis CdS</strong>, che ha priorità sull'Art. 80. La scelta corretta è fondamentale.
+                            </div>
+                        </div>
+                    </legend>
+                    <div class="space-y-3">
+                        <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Targa Italiana</span><input type="radio" name="plateType" value="italiana" required></div></label>
+                        <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Targa Estera</span><input type="radio" name="plateType" value="estera"></div></label>
+                    </div>
+                </fieldset>
+
+                <!-- Sezioni Dinamiche per Targa Italiana -->
+                <div id="section-italiana" class="form-section space-y-6">
+                     <fieldset>
+                         <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                             <span>2. Eccezioni Preliminari</span>
+                             <div class="info-tooltip-container relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                    Verifica se si applica una di queste casistiche che escludono o modificano la violazione standard. Il superamento di una "visita e prova" (<strong>Art. 78</strong>) ha validità di revisione. L'esibizione di un'attestazione falsa è una violazione specifica (<strong>Art. 80, c. 17</strong>).
+                                </div>
+                            </div>
+                        </legend>
+                         <div class="space-y-3">
+                            <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Nessuna delle seguenti</span><input type="radio" name="preliminaryCheck" value="none"></div></label>
+                            <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Ha superato un "collaudo" recente</span><input type="radio" name="preliminaryCheck" value="collaudo"></div></label>
+                             <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Esibisce un'attestazione falsa</span><input type="radio" name="preliminaryCheck" value="falso"></div></label>
+                        </div>
+                    </fieldset>
+
+                    <div id="section-italiana-standard-flow" class="form-section space-y-6">
+                        <fieldset>
+                            <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                                <span>3. Annotazione di Sospensione su DUC</span>
+                                <div class="info-tooltip-container relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                    <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                        Controlla fisicamente il DUC. La presenza dell'annotazione è il presupposto per applicare la sanzione molto più grave prevista dall'<strong>Art. 80, c. 14, quinto periodo</strong>.
+                                    </div>
+                                </div>
+                            </legend>
+                            <div class="space-y-3">
+                                <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Sì, è presente</span><input type="radio" name="hasSuspension" value="true"></div></label>
+                                <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">No, non è presente</span><input type="radio" name="hasSuspension" value="false"></div></label>
+                            </div>
+                        </fieldset>
+
+                        <div id="section-suspension-present" class="form-section">
+                            <fieldset>
+                                <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                                    <span>4. Circolazione con veicolo sospeso (Reiterata)</span>
+                                    <div class="info-tooltip-container relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                        <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                            Verifica se il conducente è già stato sanzionato per la stessa violazione. In caso di reiterazione, l'<strong>Art. 80, c. 14</strong> prevede la confisca amministrativa (<strong>Art. 213 CdS</strong>).
+                                        </div>
+                                    </div>
+                                </legend>
+                                <div class="space-y-3">
+                                    <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Sì, violazione reiterata</span><input type="radio" name="reiteratedSuspension" value="true"></div></label>
+                                    <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">No, è la prima volta</span><input type="radio" name="reiteratedSuspension" value="false"></div></label>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div id="section-suspension-absent" class="form-section space-y-6">
+                            <fieldset>
+                                <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                                    <span>4. Luogo del Controllo</span>
+                                    <div class="info-tooltip-container relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                        <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                            Per il principio di specialità, in autostrada si applica l'<strong>Art. 176, c. 18 CdS</strong>. Prevale sull'Art. 80 e prevede una sanzione accessoria più grave (fermo amministrativo).
+                                        </div>
+                                    </div>
+                                </legend>
+                                <div class="space-y-3">
+                                    <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Autostrada</span><input type="radio" name="location" value="highway"></div></label>
+                                    <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Viabilità Ordinaria</span><input type="radio" name="location" value="ordinary"></div></label>
+                                </div>
+                            </fieldset>
+                            <fieldset id="section-omission-reiterated" class="form-section">
+                                <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                                    <span>5. Revisione omessa (Reiterata)</span>
+                                    <div class="info-tooltip-container relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                        <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                            L'<strong>Art. 80, c. 14, secondo periodo</strong> prevede il raddoppio della sanzione pecuniaria se la revisione è stata omessa "per più di una volta". Verificare da banche dati.
+                                        </div>
+                                    </div>
+                                </legend>
+                                <div class="space-y-3">
+                                    <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Sì, omessa più di una volta</span><input type="radio" name="reiteratedOmission" value="true"></div></label>
+                                    <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">No, è la prima omissione</span><input type="radio" name="reiteratedOmission" value="false"></div></label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sezioni Dinamiche per Targa Estera -->
+                <div id="section-estera" class="form-section space-y-6">
+                    <!-- Contenuto Targa Estera invariato -->
+                     <div class="p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-r-lg">
+                        <h3 class="font-bold">Attenzione: Veicolo con Targa Estera</h3>
+                        <p class="text-sm mt-1">Verificare prima la regolarità della circolazione in Italia (art. 93-bis), che assorbe l'eventuale revisione scaduta.</p>
+                    </div>
+                    <fieldset>
+                         <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                            <span>2. Residenza Conducente/Utilizzatore</span>
+                            <div class="info-tooltip-container relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                    Identifica se chi guida o utilizza il veicolo è residente in Italia. Se è residente, si applica l'<strong>Art. 93-bis</strong>. Se non è residente (es. turista), si applica l'<strong>Art. 207 CdS</strong>.
+                                </div>
+                            </div>
+                         </legend>
+                         <div class="space-y-3">
+                            <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Residente in Italia</span><input type="radio" name="isResident" value="true"></div></label>
+                            <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Non residente (es. turista)</span><input type="radio" name="isResident" value="false"></div></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset id="section-estera-resident" class="form-section">
+                        <legend class="text-lg font-semibold text-gray-700 mb-2 flex items-center space-x-2">
+                             <span>3. Iscrizione al REVE / Reimmatricolazione</span>
+                             <div class="info-tooltip-container relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                <div class="info-tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-2 text-sm text-white bg-gray-800 rounded-md shadow-lg z-20 hidden">
+                                    L'<strong>Art. 93-bis, c. 2</strong> obbliga il residente che usa un veicolo estero per più di 30gg a iscriverlo al REVE. L'<strong>Art. 93-bis, c. 1</strong> obbliga il residente proprietario da oltre 3 mesi a reimmatricolarlo. La violazione è prioritaria.
+                                </div>
+                            </div>
+                        </legend>
+                        <div class="space-y-3">
+                           <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">Sì, regolarmente iscritto al REVE</span><input type="radio" name="reveStatus" value="ok"></div></label>
+                           <label class="radio-label"><div class="radio-label-inner"><span class="radio-label-text">No, non iscritto (o doveva reimmatricolare)</span><input type="radio" name="reveStatus" value="ko"></div></label>
+                       </div>
+                    </fieldset>
+                </div>
+                
+                <hr/>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300 ease-in-out transform hover:scale-105">
+                    Verifica Violazione
+                </button>
+            </form>
+
+            <div id="result-container" class="mt-8" style="display: none;">
+                 <div id="result-content"></div>
+                 <button id="restart-btn" class="w-full mt-6 bg-gray-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 transition duration-300">
+                    Nuovo Controllo
+                </button>
+            </div>
+             
+            <div class="text-center text-xs text-gray-400 pt-4 mt-6 border-t border-gray-200">
+                <p>Questa PWA è uno strumento di ausilio per gli operatori. Le informazioni hanno valore indicativo e non sostituiscono la normativa vigente. Versione basata su Prontuario 2025.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- SERVICE WORKER REGISTRATION ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker: Registered'))
+                    .catch(err => console.log(`Service Worker: Error: ${err}`));
+            });
+        }
+        
+        // --- APPLICATION LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('check-form');
+            const resultContainer = document.getElementById('result-container');
+            const resultDiv = document.getElementById('result-content');
+            const restartBtn = document.getElementById('restart-btn');
+
+            // --- UI LOGIC ---
+            const sections = {
+                italiana: document.getElementById('section-italiana'),
+                italianaStandardFlow: document.getElementById('section-italiana-standard-flow'),
+                estera: document.getElementById('section-estera'),
+                suspensionPresent: document.getElementById('section-suspension-present'),
+                suspensionAbsent: document.getElementById('section-suspension-absent'),
+                omissionReiterated: document.getElementById('section-omission-reiterated'),
+                esteraResident: document.getElementById('section-estera-resident')
+            };
+
+            const showSection = (el) => el.style.display = 'block';
+            const hideSection = (el) => el.style.display = 'none';
+            const resetRadio = (name) => {
+                form.querySelectorAll(`input[name="${name}"]`).forEach(r => r.checked = false);
+            };
+
+            const resetItalianaFlow = () => {
+                hideSection(sections.italianaStandardFlow);
+                hideSection(sections.suspensionPresent);
+                hideSection(sections.suspensionAbsent);
+                hideSection(sections.omissionReiterated);
+                resetRadio('hasSuspension');
+                resetRadio('reiteratedSuspension');
+                resetRadio('location');
+                resetRadio('reiteratedOmission');
+            };
+
+            form.addEventListener('change', (e) => {
+                const { name, value } = e.target;
+                
+                if (name === 'plateType') {
+                    if (value === 'italiana') {
+                        showSection(sections.italiana);
+                        hideSection(sections.estera);
+                        resetRadio('isResident');
+                        resetRadio('reveStatus');
+                    } else {
+                        hideSection(sections.italiana);
+                        showSection(sections.estera);
+                        resetRadio('preliminaryCheck');
+                        resetItalianaFlow();
+                    }
+                }
+
+                if (name === 'preliminaryCheck') {
+                    if (value === 'none') {
+                        showSection(sections.italianaStandardFlow);
+                    } else {
+                        resetItalianaFlow();
+                    }
+                }
+
+                if (name === 'hasSuspension') {
+                    showSection(value === 'true' ? sections.suspensionPresent : sections.suspensionAbsent);
+                    hideSection(value === 'true' ? sections.suspensionAbsent : sections.suspensionPresent);
+                    resetRadio(value === 'true' ? 'location' : 'reiteratedSuspension');
+                    resetRadio(value === 'true' ? 'reiteratedOmission' : 'reiteratedSuspension');
+                }
+                if (name === 'location') {
+                    if (value === 'ordinary') showSection(sections.omissionReiterated);
+                    else hideSection(sections.omissionReiterated);
+                }
+                if (name === 'isResident') {
+                    if (value === 'true') showSection(sections.esteraResident);
+                    else hideSection(sections.esteraResident);
+                }
+                resultContainer.style.display = 'none'; // Nasconde il risultato se si cambia opzione
+            });
+
+            // --- TOOLTIP LOGIC ---
+            document.addEventListener('click', (e) => {
+                const container = e.target.closest('.info-tooltip-container');
+                document.querySelectorAll('.info-tooltip-text').forEach(tt => {
+                    if (!container || !tt.isSameNode(container.querySelector('.info-tooltip-text'))) {
+                        tt.classList.add('hidden');
+                    }
+                });
+                if (container) {
+                    container.querySelector('.info-tooltip-text').classList.toggle('hidden');
+                }
+            });
+
+
+            // --- DATA AND CALCULATION ---
+            const VIOLATIONS = {
+                '080-1': { norma: "Art. 80, c. 14, p. 1", descrizione: "Circolazione con revisione omessa (1ª violazione).", sanzione: "€ 173,00", scontata: "€ 121,10 (entro 5gg)", accessorie: "Sospensione dalla circolazione con annotazione su DUC.", verbale: "Perché, quale conducente del veicolo indicato in epigrafe, circolava sulla via pubblica omettendo di sottoporre il medesimo alla prescritta visita di revisione periodica, la cui validità risultava scaduta. A seguito della contestazione, il veicolo è sospeso dalla circolazione e può circolare al solo fine di essere condotto presso il luogo di custodia indicato o presso un centro autorizzato per la prescritta revisione.", note: "<strong>OBBLIGO:</strong> Annotare su DUC: \"Veicolo sospeso dalla circolazione...\" (Art. 80, c.14). <strong>SPIEGARE AL CONDUCENTE:</strong> Il veicolo può circolare oggi solo per recarsi a revisione (con prenotazione) o al luogo di custodia. Nei giorni successivi, la circolazione è vietata tranne che per recarsi alla visita nel giorno prenotato. Qualsiasi altro spostamento integra la violazione più grave di circolazione con veicolo sospeso.", type: "red" },
+                '080-3': { norma: "Art. 80, c. 14, p. 2", descrizione: "Circolazione con revisione omessa per più di una volta.", sanzione: "€ 346,00 (sanzione raddoppiata)", scontata: "€ 242,20 (entro 5gg)", accessorie: "Sospensione dalla circolazione con annotazione su DUC.", verbale: "Perché, quale conducente del veicolo indicato in epigrafe, circolava sulla via pubblica omettendo di sottoporre il medesimo alla prescritta visita di revisione periodica per più di una volta. A seguito della contestazione, il veicolo è sospeso dalla circolazione e può circolare al solo fine di essere condotto presso il luogo di custodia indicato o presso un centro autorizzato per la prescritta revisione.", note: "<strong>OBBLIGO:</strong> Annotare su DUC: \"Veicolo sospeso dalla circolazione...\" (Art. 80, c.14). <strong>SPIEGARE AL CONDUCENTE:</strong> Il veicolo può circolare oggi solo per recarsi a revisione (con prenotazione) o al luogo di custodia. Nei giorni successivi, la circolazione è vietata tranne che per recarsi alla visita nel giorno prenotato. Qualsiasi altro spostamento integra la violazione più grave di circolazione con veicolo sospeso.", type: "red" },
+                '080-4': { norma: "Art. 80, c. 14, p. 5", descrizione: "Circolazione con veicolo già sospeso (1ª infrazione).", sanzione: "€ 1.998,00", scontata: "€ 1.398,60 (entro 5gg)", accessorie: "<strong>Fermo amministrativo del veicolo per 90 giorni</strong> (Art. 214 CdS).", verbale: "Perché circolava abusivamente alla guida del veicolo indicato in epigrafe, sebbene lo stesso fosse stato sospeso dalla circolazione in attesa dell'esito della revisione, come da provvedimento annotato sul Documento Unico di Circolazione.", note: "<strong>PRESUPPOSTO:</strong> Accertare la presenza fisica dell'annotazione di sospensione sul DUC (Art. 80, c.14). Procedere con il fermo amministrativo ai sensi dell'<strong>Art. 214 CdS</strong>. La violazione degli obblighi di custodia del fermo comporta sanzioni severe, inclusa la confisca.", type: "red" },
+                '080-5': { norma: "Art. 80, c. 14, p. 5", descrizione: "Circolazione con veicolo già sospeso (reiterata).", sanzione: "da € 1.998,00 a € 7.993,00", scontata: "Pagamento in misura ridotta non previsto", accessorie: "<strong>Confisca amministrativa del veicolo</strong> (Art. 213 CdS).", verbale: "Perché circolava abusivamente alla guida del veicolo indicato in epigrafe, già sottoposto a sospensione dalla circolazione. Tale condotta costituisce reiterazione della medesima violazione precedentemente contestata.", note: "Si applica quando si viola nuovamente l'Art. 80, c. 14, p. 5 (circolazione con veicolo sospeso). La sanzione è la confisca amministrativa del veicolo ai sensi dell'<strong>Art. 213 CdS</strong>.", type: "red" },
+                '080-17': { norma: "Art. 80, c. 17", descrizione: "Esibizione di attestazione di revisione falsa.", sanzione: "€ 430,00", scontata: "€ 301,00 (entro 5gg)", accessorie: "Ritiro del Documento Unico di Circolazione (DUC).", verbale: "Perché esibiva un'attestazione di revisione per il veicolo in epigrafe risultata palesemente contraffatta, al fine di eludere i controlli sulla prescritta revisione periodica, la quale risulta omessa.", note: "<strong>DUPLICE PROCEDURA:</strong> 1) Contestare la sanzione amministrativa dell'<strong>Art. 80, c. 17</strong> con ritiro del DUC. 2) Procedere con la <strong>Notizia di Reato</strong> per il reato di Falso (Artt. 477, 482 c.p.) e sequestrare il documento/etichetta falsa come corpo del reato. Contestare separatamente la mancata revisione (Art. 80, c. 14).", type: "red" },
+                '176-18': { norma: "Art. 176, c. 18", descrizione: "Circolazione in autostrada con veicolo non revisionato.", sanzione: "€ 173,00", scontata: "€ 121,10 (entro 5gg)", accessorie: "<strong>Fermo amministrativo del veicolo</strong> fino a prenotazione della visita di revisione.", verbale: "Perché circolava in autostrada alla guida del veicolo indicato in epigrafe senza che lo stesso fosse stato sottoposto alla prescritta revisione periodica, la cui validità risultava scaduta. Al conducente è stato intimato di lasciare l'autostrada alla prima uscita utile.", note: "Norma speciale (<strong>Art. 176, c. 18</strong>) che prevale sull'Art. 80. <strong>OBBLIGO:</strong> Intimare al trasgressore di abbandonare l'autostrada alla prima uscita. Procedere con il fermo amministrativo, che cessa solo dopo la prenotazione della visita.", type: "red" },
+                'collaudo-ok': { norma: "Nessuna violazione", descrizione: "Veicolo con revisione periodica scaduta ma con 'visita e prova' (collaudo) recente.", sanzione: "-", scontata: "-", accessorie: "-", verbale: "", note: "L'esito positivo di una 'visita e prova' ai sensi dell'<strong>Art. 78 CdS</strong> (es. installazione gancio traino) ha validità anche ai fini della revisione per l'anno in corso. Pertanto, il veicolo è considerato in regola. Non si procede a sanzione.", type: "green" },
+                'estero-non-residente': { norma: "Art. 80, c. 14 (se applicabile)", descrizione: "Conducente non residente con veicolo targa estera (UE/SEE) e revisione scaduta.", sanzione: "€ 173,00", scontata: "N/A", accessorie: "Applicazione art. 207 CdS.", verbale: "Perché, quale conducente del veicolo indicato in epigrafe, immatricolato in [Paese UE/SEE], circolava in territorio nazionale con la revisione periodica scaduta secondo la normativa vigente nello Stato di immatricolazione.", note: "Se la revisione del Paese UE/SEE è scaduta, si contesta l'art. 80 e si applica l'<strong>Art. 207 CdS</strong> (pagamento immediato o cauzione). In mancanza, fermo amministrativo. Per targhe Extra-UE, l'art. 80 non è contestabile; verificare l'efficienza del veicolo (<strong>Art. 79 CdS</strong>).", type: "yellow" },
+                'estero-no-reve': { norma: "Art. 93-bis", descrizione: "Veicolo estero e conducente residente senza iscrizione al REVE/reimmatricolazione.", sanzione: "da € 712 a € 3.558", scontata: "Verificare normativa", accessorie: "Ritiro del DUC e, in alcuni casi, sequestro ai fini di confisca.", verbale: "Perché, quale residente in Italia, circolava alla guida del veicolo con targa estera indicato in epigrafe, senza aver provveduto alla sua reimmatricolazione o iscrizione al Pubblico Registro dei Veicoli Esteri (REVE) nei termini previsti dalla legge.", note: "La violazione dell'<strong>Art. 93-bis</strong> è prioritaria e assorbe la revisione omessa. Contestare la violazione specifica (mancata iscrizione al REVE o mancata reimmatricolazione) che prevede sanzioni proprie e ritiro del DUC.", type: "red" },
+                'estero-reve-ok': { norma: "Nessuna violazione preliminare", descrizione: "Veicolo estero regolarmente iscritto al REVE.", sanzione: "-", scontata: "-", accessorie: "-", verbale: "", note: "Il veicolo, essendo regolarmente registrato al REVE (<strong>Art. 93-bis, c. 2</strong>), è soggetto a tutti gli obblighi italiani. <strong>Riavviare il controllo selezionando 'Targa Italiana'</strong> per verificare la scadenza della revisione secondo le norme nazionali.", type: "green" },
+                'incomplete': { norma: "Dati Insufficienti", descrizione: "Selezionare tutte le opzioni pertinenti per determinare la violazione corretta.", sanzione: "-", scontata: "-", accessorie: "-", verbale: "", note: "Completare tutti i passaggi richiesti per visualizzare il risultato.", type: "blue" }
+            };
+
+            const getSelectedValue = (name) => {
+                const checked = form.querySelector(`input[name="${name}"]:checked`);
+                return checked ? checked.value : null;
+            };
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let resultKey = 'incomplete';
+                const plateType = getSelectedValue('plateType');
+
+                if (plateType === 'italiana') {
+                    const preliminaryCheck = getSelectedValue('preliminaryCheck');
+                    if (preliminaryCheck === 'collaudo') {
+                        resultKey = 'collaudo-ok';
+                    } else if (preliminaryCheck === 'falso') {
+                        resultKey = '080-17';
+                    } else if (preliminaryCheck === 'none') {
+                        const hasSuspension = getSelectedValue('hasSuspension');
+                        if (hasSuspension === 'true') {
+                            resultKey = getSelectedValue('reiteratedSuspension') === 'true' ? '080-5' : '080-4';
+                        } else if (hasSuspension === 'false') {
+                            const location = getSelectedValue('location');
+                            if (location === 'highway') {
+                                resultKey = '176-18';
+                            } else if (location === 'ordinary') {
+                                resultKey = getSelectedValue('reiteratedOmission') === 'true' ? '080-3' : '080-1';
+                            }
+                        }
+                    }
+                } else if (plateType === 'estera') {
+                    const isResident = getSelectedValue('isResident');
+                    if (isResident === 'false') {
+                        resultKey = 'estero-non-residente';
+                    } else if (isResident === 'true') {
+                        resultKey = getSelectedValue('reveStatus') === 'ok' ? 'estero-reve-ok' : 'estero-no-reve';
+                    }
+                }
+                
+                renderResult(resultKey);
+            });
+
+            const renderResult = (resultKey) => {
+                const result = VIOLATIONS[resultKey] || VIOLATIONS['incomplete'];
+                const colorClasses = { red: 'result-card-red', yellow: 'result-card-yellow', green: 'result-card-green', blue: 'result-card-blue' };
+                const verbaleHtml = result.verbale ? `<div class="result-card result-card-blue"><h3 class="font-bold text-gray-900">Dicitura per il Verbale</h3><p class="text-sm text-gray-700 italic">"${result.verbale}"</p></div>` : '';
+
+                resultDiv.innerHTML = `
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Riepilogo Procedura</h2>
+                    <div class="space-y-4">
+                        <div class="result-card ${colorClasses[result.type]}"><h3 class="font-bold text-gray-900">Violazione Contestata</h3><p class="text-sm text-gray-700">${result.norma} - ${result.descrizione}</p></div>
+                        ${verbaleHtml}
+                        <div class="result-card ${colorClasses[result.type]}"><h3 class="font-bold text-gray-900">Sanzione Pecuniaria</h3><p class="text-sm text-gray-700"><strong>Importo:</strong> ${result.sanzione}</p><p class="text-sm text-gray-700"><strong>Importo Scontato:</strong> ${result.scontata}</p></div>
+                        <div class="result-card ${colorClasses[result.type]}"><h3 class="font-bold text-gray-900">Sanzioni Accessorie</h3><p class="text-sm text-gray-700">${result.accessorie}</p></div>
+                        <div class="result-card result-card-yellow"><h3 class="font-bold text-gray-900">Note Operative per l'Agente</h3><p class="text-sm text-gray-700">${result.note}</p></div>
+                    </div>`;
+                
+                resultContainer.style.display = 'block';
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+            
+            restartBtn.addEventListener('click', () => {
+                form.reset();
+                Object.values(sections).forEach(hideSection);
+                resultContainer.style.display = 'none';
+                window.scrollTo(0,0);
+            });
+        });
+    </script>
+</body>
+</html>
+
