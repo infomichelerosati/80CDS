@@ -1,10 +1,10 @@
-const CACHE_NAME = 'prontuario-art80-cache-v1';
+const CACHE_NAME = 'prontuario-art80-cache-v2'; // Ho incrementato la versione per forzare l'aggiornamento
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png',
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192x192.png',
+  './icon-512x512.png',
   'https://cdn.tailwindcss.com'
 ];
 
@@ -42,6 +42,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
