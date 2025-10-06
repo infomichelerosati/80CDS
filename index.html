@@ -68,9 +68,34 @@
         #result-container {
              animation: fadeIn 0.5s ease-in-out;
         }
+        
+        /* Powered by animation styles */
+        #powered-by-text {
+            background: linear-gradient(90deg, #ff00de, #00f2ff, #f2ff00, #ff00de);
+            background-size: 400% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 8s linear infinite, pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
+
+    <div id="powered-by-container" class="fixed top-2 left-2 z-50 pointer-events-none font-bold text-[10px]">
+        <span id="powered-by-text">Powered By Michele Rosati</span>
+    </div>
 
     <div class="w-full max-w-2xl bg-white rounded-b-xl shadow-lg mx-auto">
         <!-- Header -->
